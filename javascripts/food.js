@@ -17,7 +17,21 @@ let getDogFoodData = function(callbackToPrintToDom) {
     dogFoodReq.send();
 };
 
+let getCatFoodData = function(callbackToPrintToDom) {
+    let catFoodReq = new XMLHttpRequest();
+    catFoodReq.addEventListener("load", function() {
+        let catProds = JSON.parse(catFoodReq.responseText).cat_brands;
+        callbackToPrintToDom(catProds);
+    });
+    catFoodReq.addEventListener("error", function() {
+        console.log("no luck");
+        alert("unable to load data");
+    });
+    catFoodReq.open("GET", "JSON/catFood.json");
+    catFoodReq.send();
+};
 
 
 
-module.exports = getDogFoodData;
+
+module.exports = {getDogFoodData, getCatFoodData};

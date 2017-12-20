@@ -2,7 +2,7 @@
 
 let foodProd = require("./food");
 
-let dogFoodContainer = document.getElementById("dogFoodContainer");
+let petFoodContainer = document.getElementById("petFoodContainer");
 
 
 function printToDom (arrayOfProds) {
@@ -10,15 +10,21 @@ function printToDom (arrayOfProds) {
         let brandContainer = document.createElement("div");
         brandContainer.setAttribute("class", "productBrand");
         brandContainer.innerHTML += `<h2>${item.name}</h2>`;
+        if (item.breeds !== undefined) {
+            brandContainer.innerHTML += `<h3>Suitable for ${item.breeds}</h3>`;
+        }
         item.types.forEach( (types) => {
-            brandContainer.innerHTML += `<h3>${types.type}</h3>`;
-            brandContainer.innerHTML += "<h4>Available Sizes</h4>";
+            let typeContainer = document.createElement("div");
+            typeContainer.setAttribute("class", "typeOfFood");
+            typeContainer.innerHTML += `<h3>${types.type}</h3> <h4>Available Sizes</h4>`;
+            brandContainer.appendChild(typeContainer);
             types.volumes.forEach( (vol) => {
-                brandContainer.innerHTML += `<p>${vol.name}: ${vol.price}</p>`;
+                typeContainer.innerHTML += `<p>${vol.name}: ${vol.price}</p>`;
             });
         });
-        dogFoodContainer.appendChild(brandContainer);
+        petFoodContainer.appendChild(brandContainer);
     });
 }
 
-foodProd(printToDom);
+foodProd.getDogFoodData(printToDom);
+foodProd.getCatFoodData(printToDom);
